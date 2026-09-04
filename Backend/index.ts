@@ -37,7 +37,7 @@ await app.register(fastifySwagger, {
 await app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
   uiConfig: {
-    deepLinking: true
+    deepLinking: true,
   },
 });
 
