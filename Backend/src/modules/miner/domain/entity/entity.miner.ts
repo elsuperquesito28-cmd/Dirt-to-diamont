@@ -9,19 +9,17 @@ import { CannotLevelUpMinerError } from "../errors/cannot-level-up-miner.error";
 
 type MinerTypes = (typeof miners)[number]["type"];
 
-type probs = {
-  [K in (typeof Minerals)[number]["name"]]: [
-    denominator: number,
-    numerator: number,
-  ];
+type Probs = {
+  [K in (typeof Minerals)[number]["name"]]: number;
 };
+
 export interface IMiner extends BaseEntities<MinerTypes, MinerID> {
   name: string;
   force: number;
   capacity: number;
   level: number;
   toolID: ToolID;
-  probabilities: probs;
+  probabilities: Probs;
 }
 
 export class Miner implements IMiner {
@@ -33,7 +31,7 @@ export class Miner implements IMiner {
   #capacity: number;
   #level: number;
   #updateCost: number;
-  #probabilities: probs;
+  #probabilities: Probs;
 
   constructor(value: IMiner) {
     this.name = value.name;

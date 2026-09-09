@@ -9,10 +9,10 @@ export class ToolID extends ID<string> {
     super(value);
   }
 
-  static create(value: string): Option {
+  static create(value: string): Option<ToolID> {
     const types = miners.map((x) => x.type);
     const id = verifyEntityId("Tool", types, value);
-    if (!id.isSuccess) return id;
+    if (!id.isSuccess) return Result.fail(id.error);
 
     return Result.ok(new ToolID(value));
   }

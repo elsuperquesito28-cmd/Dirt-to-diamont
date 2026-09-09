@@ -6,11 +6,16 @@ import {
 } from "../../services/result/errors";
 import { Result, type Option } from "../../services/result/result";
 
+type returnVerify = {
+  prefix: string;
+  type: string;
+  unique: string;
+};
 export function verifyEntityId(
   prefix: string,
   types: string[],
   id: string,
-): Option {
+): Option<returnVerify> {
   const minimumLastPartLength = 8;
 
   const parts = id.split("_");
@@ -35,5 +40,9 @@ export function verifyEntityId(
   if (!ifLastPartCorrect)
     return Result.fail(new InvalidIdLastPart(id, minimumLastPartLength));
 
-  return Result.ok(true);
+  return Result.ok({
+    prefix: parts[0]!,
+    type: parts[1]!,
+    unique: parts[2]!,
+  });
 }
