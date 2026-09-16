@@ -7,7 +7,8 @@
     "start": "bun index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "drizzle-kit": "^1.0.0-rc.4"
   },
   "peerDependencies": {
     "typescript": "^7"
@@ -17,6 +18,8 @@
     "@fastify/cors": "^11.3.0",
     "@fastify/swagger": "^9.8.1",
     "@fastify/swagger-ui": "^6.1.1",
-    "fastify": "^5.12.1"
+    "drizzle-orm": "^1.0.0-rc.4",
+    "fastify": "^5.12.1",
+    "postgres": "^3.4.9"
   }
 }

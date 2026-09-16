@@ -38,15 +38,3 @@ export function createMinerProbabilities(
     ]),
   ) as MinerProbabilities;
 }
-
-export const createProbabilities = (
-  minerLevel: number,
-  baseProbability: number,
-) => {
-  const exponent = -(minerLevel + baseProbability);
-  const logisticDenominator = 1 + Math.E ** exponent;
-  const probabilityRange =
-    (MAX_PROBABILITY - MIN_PROBABILITY) * (1 / logisticDenominator);
-
-  return probabilityRange + MIN_PROBABILITY;
-};

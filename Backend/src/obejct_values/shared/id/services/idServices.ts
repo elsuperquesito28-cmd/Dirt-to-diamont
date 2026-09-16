@@ -3,8 +3,8 @@ import {
   InvalidIdLastPart,
   InvalidIdPrefix,
   InvalidIdType,
-} from "../../services/result/errors";
-import { Result, type Option } from "../../services/result/result";
+} from "../../../../services/result/errors";
+import { Result, type Option } from "../../../../services/result/result";
 
 type returnVerify = {
   prefix: string;

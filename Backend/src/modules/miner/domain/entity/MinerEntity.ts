@@ -1,11 +1,12 @@
 import type { Minerals } from "../../../../entities_base/minerals";
 import type { miners } from "../../../../entities_base/miners";
-import type { MinerID } from "../../../../id/id.miner";
-import type { ToolID } from "../../../../id/id.tool";
-import { Result, type Option } from "./../../../../services/result/result";
-import type { BaseEntities } from "./../../../shared/interface.base.entities";
+import type { MinerID } from "../../../../obejct_values/miner/id/minerId";
+import type { ToolID } from "../../../../obejct_values/id/types/toolId";
+import { Result, type Option } from "../../../../services/result/result";
+import type { BaseEntities } from "../../../shared/interface.base.entities";
 import { CannotIncreaseMinerCapacityError } from "../errors/cannot-increase-miner-capacity.error";
 import { CannotLevelUpMinerError } from "../errors/cannot-level-up-miner.error";
+import type { MinerForce } from "../../../../obejct_values/miner/force/miner.force";
 
 type MinerTypes = (typeof miners)[number]["type"];
 
@@ -15,7 +16,7 @@ type Probs = {
 
 export interface IMiner extends BaseEntities<MinerTypes, MinerID> {
   name: string;
-  force: number;
+  force: MinerForce;
   capacity: number;
   level: number;
   toolID: ToolID;
@@ -27,7 +28,7 @@ export class Miner implements IMiner {
   #id: MinerID;
   #toolId: ToolID;
   #type: MinerTypes;
-  #force: number;
+  #force: MinerForce;
   #capacity: number;
   #level: number;
   #updateCost: number;
@@ -77,7 +78,7 @@ export class Miner implements IMiner {
 
     this.#updateCost = Math.floor(this.#updateCost * 3.15);
     this.#level += 1;
-    this.#force += 1;
+    this.#force.force += 1;
 
     return Result.ok(this.#level);
   }
