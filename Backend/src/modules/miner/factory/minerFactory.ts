@@ -1,5 +1,5 @@
 import { miners, type MinersType } from "../../../entities_base/miners";
-import type { ToolID } from "../../../obejct_values/id/types/toolId";
+import type { ToolID } from "../../../obejct_values/tool/id/toolId";
 import type { MinerForce } from "../../../obejct_values/miner/force/miner.force";
 import type { MinerID } from "../../../obejct_values/miner/id/minerId";
 import { Result, type Option } from "../../../services/result/result";

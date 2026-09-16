@@ -7,7 +7,7 @@ type ProbabilityRatio = {
   denominator: number;
 };
 
-type Probs = {
+export type Probs = {
   [K in Mineral]: ProbabilityRatio;
 };
 

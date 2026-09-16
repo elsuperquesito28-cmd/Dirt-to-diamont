@@ -1,7 +1,7 @@
 import type { Minerals } from "../../../../entities_base/minerals";
 import type { miners } from "../../../../entities_base/miners";
 import type { MinerID } from "../../../../obejct_values/miner/id/minerId";
-import type { ToolID } from "../../../../obejct_values/id/types/toolId";
+import type { ToolID } from "../../../../obejct_values/tool/id/toolId";
 import { Result, type Option } from "../../../../services/result/result";
 import type { BaseEntities } from "../../../shared/interface.base.entities";
 import { CannotIncreaseMinerCapacityError } from "../errors/cannot-increase-miner-capacity.error";
