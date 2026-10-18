@@ -12,7 +12,7 @@ import { sql } from "drizzle-orm";
 import type { BaseColumnsDataBase } from "../interface/interface.base";
 import { GameTable } from "./gameTable";
 
-const toolsTaable: BaseColumnsDataBase<ITool, true> = {
+const toolsTaable = {
   type: text("tool_type").notNull().$type<ToolsType>(),
   id: text("id").primaryKey(),
   gameId: text("game_id")
@@ -23,7 +23,7 @@ const toolsTaable: BaseColumnsDataBase<ITool, true> = {
   updateCost: integer("tool_update_cost").notNull(),
   fortuneLevel: integer("tool_fortune_level").notNull(),
   efficienceLevel: integer("tool_efficience_level").notNull(),
-};
+} satisfies BaseColumnsDataBase<ITool, true>;
 
 export const ToolTable = pgTable("tools", toolsTaable, (table) => [
   unique("tools_id_game_id_unique").on(table.id, table.gameId),

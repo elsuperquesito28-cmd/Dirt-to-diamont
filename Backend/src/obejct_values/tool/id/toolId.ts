@@ -1,7 +1,7 @@
 import { tools, type ToolsType } from "../../../entities_base/tools";
 import { Result, type Option } from "../../../services/result/result";
 import { ID } from "../../shared/id/interface_ID/interfaceId";
-import { verifyEntityId } from "../../shared/id/services/idServices";
+import { verifyEntityGameId } from "../../shared/id/services/idServices";
 
 export class ToolID extends ID<string> {
   declare private readonly ToolIDBrand: void;
@@ -16,7 +16,7 @@ export class ToolID extends ID<string> {
 
   static create(value: string): Option<ToolID> {
     const types = tools.map((tool) => tool.type);
-    const id = verifyEntityId(ToolID.PREFIX_ID, types, value);
+    const id = verifyEntityGameId(ToolID.PREFIX_ID, types, value);
     if (!id.isSuccess) return id;
 
     const { type, unique } = id.value;

@@ -11,7 +11,7 @@ type returnVerify = {
   type: string;
   unique: string;
 };
-export function verifyEntityId(
+export function verifyEntityGameId(
   prefix: string,
   types: string[],
   id: string,
@@ -44,5 +44,30 @@ export function verifyEntityId(
     prefix: parts[0]!,
     type: parts[1]!,
     unique: parts[2]!,
+  });
+}
+
+export function verifyEntityID(
+  prefix: string,
+  id: string,
+): Option<{ prefix: string; unique: string, id: string }> {
+  const partsOfTheID = id.split("_");
+  const NUMBER_OF_PARTS = 2;
+  const lengthId = partsOfTheID.length;
+
+  const prefixOfId = id[0];
+
+  const ifPrefixCorrect = prefixOfId === prefix;
+  const ifLengthCorrect = lengthId === NUMBER_OF_PARTS;
+
+  if (!ifPrefixCorrect) return Result.fail(new InvalidIdPrefix(id, prefix));
+
+  if (!ifLengthCorrect)
+    return Result.fail(new InvalidIdLength(id, NUMBER_OF_PARTS));
+
+  return Result.ok({
+    prefix,
+    unique: id[1]!,
+    id,
   });
 }

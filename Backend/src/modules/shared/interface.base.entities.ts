@@ -32,9 +32,12 @@ export interface BaseEntities<T, ID> {
  * @typeParam T - Module-specific configuration properties.
  * @typeParam types - Union of valid values for the configuration type.
  */
-export type BaseForaBaseEntitity<T, types> = T & {
+export type BaseForaBaseEntitity<T, types, Id> = T & {
   /** Maximum level allowed by the configuration. */
   maxLavel: number;
+
+  /** Id of the base entity */
+  id: Id;
 
   /** Initial cost associated with the configuration. */
   cost: number;

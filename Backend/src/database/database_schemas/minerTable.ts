@@ -13,7 +13,7 @@ import { ToolTable } from "./toolTable";
 import { miners, type MinersType } from "../../entities_base/miners";
 import { sql } from "drizzle-orm";
 
-const TableMinerConfig: BaseColumnsDataBase<IMiner, true> = {
+const TableMinerConfig = {
   id: text("miner_id").primaryKey(),
   gameId: text("miner_game_id")
     .notNull()
@@ -25,7 +25,7 @@ const TableMinerConfig: BaseColumnsDataBase<IMiner, true> = {
   level: integer("miner_level").notNull(),
   capacity: integer("miner_capacity").notNull(),
   updateCost: integer("miner_update_cost").notNull(),
-};
+} satisfies BaseColumnsDataBase<IMiner, true>;
 
 export const MinerTable = pgTable("miners", TableMinerConfig, (table) => [
   foreignKey({

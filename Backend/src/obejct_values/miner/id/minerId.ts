@@ -1,7 +1,7 @@
 import { miners, type MinersType } from "../../../entities_base/miners";
 import { Result, type Option } from "../../../services/result/result";
 import { ID } from "../../shared/id/interface_ID/interfaceId";
-import { verifyEntityId } from "../../shared/id/services/idServices";
+import { verifyEntityGameId } from "../../shared/id/services/idServices";
 
 export class MinerID extends ID<string> {
   declare private readonly MinerIDBrand: void;
@@ -16,7 +16,7 @@ export class MinerID extends ID<string> {
 
   static create(value: string): Option<MinerID> {
     const types = miners.map((x) => x.type);
-    const id = verifyEntityId("Miner", types, value);
+    const id = verifyEntityGameId("Miner", types, value);
     if (!id.isSuccess) return id;
 
     const { type, unique } = id.value;

@@ -1,4 +1,5 @@
 import { tools, type ToolsType } from "../../../entities_base/tools";
+import type { ToolID } from "../../../obejct_values/tool/id/toolId";
 import type { BaseForaBaseEntitity } from "../../shared/interface.base.entities";
 
 /**
@@ -7,13 +8,9 @@ import type { BaseForaBaseEntitity } from "../../shared/interface.base.entities"
  * It combines the shared configuration properties with the value specific
  * to tools. The configuration is selected by its tool type.
  */
-export type toolBase = BaseForaBaseEntitity<
-  {
-    /** Value contributed by the tool while it is being used. */
-    value: number;
-  },
-  ToolsType
->;
+export type toolBase = BaseForaBaseEntitity<{
+  value: number
+}, ToolsType, ToolID>;
 
 /**
  * Provides the initial configuration of a tool type.
