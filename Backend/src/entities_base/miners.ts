@@ -72,3 +72,5 @@ export const miners = [
 ] as const satisfies MinersValuesBase[];
 
 export type MinersType = (typeof miners)[number]["type"];
+
+export const minerTypes = miners.map((miner) => miner.type);

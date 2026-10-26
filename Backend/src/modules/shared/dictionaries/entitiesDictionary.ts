@@ -1,4 +1,6 @@
+import { Building } from "../../building/domain/entity/BuildingEntity";
 import { Game } from "../../game/domain/entity/GameEntity";
+import { MinerBase } from "../../miner/base/miners.base";
 import { Miner } from "../../miner/domain/entity/MinerEntity";
 import { Tool } from "../../tool/domain/enitity/tools.entity";
 import { User } from "../../user/domain/entity/UserEntity";
@@ -8,5 +10,7 @@ export const EntityDictionary = {
   miner: Miner,
   tool: Tool,
   game: Game,
-  user: User
+  user: User,
+  building: Building,
+  minerBase: MinerBase
 } satisfies FormOfEntityDictionary;

@@ -8,6 +8,7 @@ import { CannotIncreaseMinerCapacityError } from "../errors/cannot-increase-mine
 import { CannotLevelUpMinerError } from "../errors/cannot-level-up-miner.error";
 import type { MinerForce } from "../../../../obejct_values/miner/force/miner.force";
 import type { GameID } from "../../../../obejct_values/game/id/gameId";
+import type { BuildingId } from "../../../../obejct_values/building/id/buildingId";
 
 type MinerTypes = (typeof miners)[number]["type"];
 
@@ -16,19 +17,21 @@ type Probs = {
 };
 
 export interface IMiner extends BaseEntities<MinerTypes, MinerID> {
+  gameId: GameID;
+  buildingId: BuildingId;
   name: string;
   force: MinerForce;
   capacity: number;
   level: number;
   toolID: ToolID;
   probabilities: Probs;
-  gameId: GameID;
 }
 
 export class Miner implements IMiner {
   name: string;
   #id: MinerID;
   public readonly gameId: GameID;
+  public readonly buildingId: BuildingId;
   #toolId: ToolID;
   #type: MinerTypes;
   #force: MinerForce;
@@ -40,6 +43,7 @@ export class Miner implements IMiner {
   constructor(value: IMiner) {
     this.name = value.name;
     this.#id = value.id;
+    this.buildingId = value.buildingId;
     this.#toolId = value.toolID;
     this.#type = value.type;
     this.#force = value.force;

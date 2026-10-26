@@ -1,26 +1,18 @@
-import { miners, type MinersType } from "../../../entities_base/miners";
-import type { ToolID } from "../../../obejct_values/tool/id/toolId";
-import type { MinerForce } from "../../../obejct_values/miner/force/miner.force";
-import type { MinerID } from "../../../obejct_values/miner/id/minerId";
+import { miners } from "../../../entities_base/miners";
 import { Result, type Option } from "../../../services/result/result";
 import { Miner } from "../domain/entity/MinerEntity";
 import { MinerTypeNotFoundError } from "../domain/errors/miner-type-not-found.error";
 import { createMinerProbabilities } from "../services/createMinersProbabilities";
 
-type CreateMinerArgs = {
-  type: MinersType;
-  force: MinerForce;
-  name: string;
-  id: MinerID;
-  toolId: ToolID;
-};
 export function createMiner({
   type,
   force,
   name,
   id,
-  toolId,
-}: CreateMinerArgs): Option<Miner> {
+  toolID,
+  gameId,
+  buildingId,
+}: Miner): Option<Miner> {
   const minerConfigByType = miners.find((miner) => miner.type === type) as
     | (typeof miners)[number]
     | undefined;
@@ -33,7 +25,9 @@ export function createMiner({
     new Miner({
       name,
       id,
-      toolID: toolId,
+      toolID,
+      buildingId,
+      gameId,
       force,
       type,
       level: 1,

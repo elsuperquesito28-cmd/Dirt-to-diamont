@@ -1,5 +1,6 @@
 import type { Probs } from "../../../../entities_base/miners";
 import type { ToolsType } from "../../../../entities_base/tools";
+import type { GameID } from "../../../../obejct_values/game/id/gameId";
 import type { ToolID } from "../../../../obejct_values/tool/id/toolId";
 import type { BaseEntities } from "../../../shared/interface.base.entities";
 
@@ -11,6 +12,8 @@ export interface ITool extends BaseEntities<ToolsType, ToolID> {
    * { coal: { numerator: 1, denominator: 1 } }
    */
   probabilities: Probs;
+
+  gameId: GameID;
 
   /**
    * Indicates whether the tool can be assigned to a miner.
@@ -48,6 +51,7 @@ export class Tool implements ITool {
   #level: number;
   readonly #type: ToolsType;
   readonly #id: ToolID;
+  public readonly gameId: GameID;
 
   constructor(value: ITool) {
     this.#probabilities = value.probabilities;
@@ -58,6 +62,7 @@ export class Tool implements ITool {
     this.#level = value.level;
     this.#type = value.type;
     this.#id = value.id;
+    this.gameId = value.gameId;
   }
 
   get probabilities() {

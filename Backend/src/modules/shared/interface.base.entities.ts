@@ -34,7 +34,7 @@ export interface BaseEntities<T, ID> {
  */
 export type BaseForaBaseEntitity<T, types, Id> = T & {
   /** Maximum level allowed by the configuration. */
-  maxLavel: number;
+  maxLevel: number;
 
   /** Id of the base entity */
   id: Id;

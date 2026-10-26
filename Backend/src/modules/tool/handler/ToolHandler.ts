@@ -35,7 +35,7 @@ export class ToolHandler {
     try {
       const insertResult = await this.repository.insert({
         table: "tool",
-        dates: tool,
+        dates: { ...tool, gameId: tool.gameId.value, id: tool.id.value },
       });
 
       if (!insertResult.isSuccess) {

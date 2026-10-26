@@ -31,6 +31,7 @@ export class MinerHandler {
         ...miner,
         gameId: miner.gameId.value,
         id: miner.id.value,
+        buildingId: miner.buildingId.value,
         force: miner.force.force,
         toolID: miner.toolID.value,
       },
