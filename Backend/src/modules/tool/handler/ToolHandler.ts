@@ -6,6 +6,7 @@ import type { ITool, Tool } from "../domain/enitity/tools.entity";
 import { tool } from "../../../database/database_schemas";
 import { ToolSelectionError } from "../domain/errors/tool-selection.error";
 import { ToolAddError } from "../domain/errors/tool-add.error";
+import type { TX } from "../../shared/masterRepository/types";
 
 export class ToolHandler {
   constructor(private repository: MasterRepository) {}
@@ -13,19 +14,26 @@ export class ToolHandler {
     const { value: toolId, type } = id;
 
     try {
-      const queryResult = await this.repository.select({
-        table: "tool",
-        where: and(eq(tool.id, toolId), eq(tool.type, type))!,
-        get: "one",
-      });
+      const queryTransaction = async (tx: TX) => {
+        const queryResult = await this.repository.select({
+          table: "tool",
+          where: and(eq(tool.id, toolId), eq(tool.type, type))!,
+          get: "one",
+          tx,
+        });
 
-      if (!queryResult.isSuccess) {
-        return Result.fail(
-          new ToolSelectionError(id.value, type, queryResult.error),
-        );
-      }
+        if (!queryResult.isSuccess) {
+          return Result.fail(
+            new ToolSelectionError(id.value, type, queryResult.error),
+          );
+        }
 
-      return Result.ok(queryResult.value);
+        return Result.ok(queryResult.value);
+      };
+
+      const transaction = await this.repository.transaction(queryTransaction);
+
+      return transaction;
     } catch (error: unknown) {
       return Result.fail(new ToolSelectionError(id.value, type, error));
     }
@@ -33,22 +41,39 @@ export class ToolHandler {
 
   async addTool(tool: ITool): Promise<Option<true>> {
     try {
-      const insertResult = await this.repository.insert({
-        table: "tool",
-        dates: { ...tool, gameId: tool.gameId.value, id: tool.id.value },
-      });
+      const queryTransaction = async (tx: TX) => {
+        const insertResult = await this.repository.insert({
+          table: "tool",
+          dates: { ...tool, gameId: tool.gameId.value, id: tool.id.value },
+          tx,
+        });
 
-      if (!insertResult.isSuccess) {
-        return Result.fail(
-          new ToolAddError(tool.id.value, tool.type, insertResult.error),
-        );
-      }
+        if (!insertResult.isSuccess) {
+          return Result.fail(
+            new ToolAddError(tool.id.value, tool.type, insertResult.error),
+          );
+        }
 
-      return Result.ok(insertResult.value);
+        return Result.ok(insertResult.value);
+      };
+
+      return await this.repository.transaction(queryTransaction);
     } catch (error: unknown) {
       return Result.fail(new ToolAddError(tool.id.value, tool.type, error));
     }
   }
 
-  deleteTool(): Option<undefined> {}
+  async deleteTool(id: ToolID): Promise<Option<undefined>> {
+    const query = async (tx: TX) => {
+      this.repository.delete({
+        table: "tool",
+        where: eq(tool.id, id.value),
+        tx: tx,
+      });
+    };
+
+    await this.repository.transaction(query);
+
+    return Result.ok(undefined);
+  }
 }

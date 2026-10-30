@@ -3,15 +3,19 @@ import type {
   ExtractTablesWithRelations,
   SQL,
 } from "drizzle-orm";
-import type { db } from "../../../database/conection";
+import { db } from "../../../database/conection";
 import type { Option } from "../../../services/result/result";
 import type { TablesDictionary } from "../dictionaries/tables.dictionary";
 import type { EntityDictionary } from "../dictionaries/entitiesDictionary";
 import * as schema from "../../../database/database_schemas/index";
+import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
 /**
  * Define the tables that the database accepts.
  */
+
+export type TX = PostgresJsDatabase<typeof schema>;
+
 export type TablesOptions = keyof typeof db.query;
 
 /**
@@ -54,6 +58,7 @@ export type RelationsOfTables = ExtractTablesWithRelations<typeof schema>;
 export type MasterRepositoryInsertValues<Table extends TablesOptions> = {
   table: Table;
   dates: EntitiesDates<Table>;
+  tx?: TX;
 };
 /**
  * Define the select function return
@@ -87,6 +92,7 @@ export type MasterRepositorySelectValues<
   where: SQL<unknown>;
   with?: TypeOfwith<T>;
   get: E;
+  tx?: TX;
 };
 
 type EntityOfTable<T extends TablesOptions> =
@@ -107,7 +113,16 @@ export type MasterRepositorySelectReturn<
   E extends SelectMethodsQuantity = SelectMethodsQuantity,
 > = Promise<Option<SelectedEntities<T, E>>>;
 
+export type MasterRepositoryDeleteValues<T extends TablesOptions> = {
+  where: SQL;
+  table: T;
+  tx?: TX;
+};
+
 export type MasterRepositoryBase = {
+  transaction<T extends (tx: TX) => Promise<any>>(
+    fn: T,
+  ): Promise<ReturnType<T>>;
   /**
    * This function is responsible for inserting data into any table.
    * @example MasterRepository.insert({
@@ -154,4 +169,8 @@ export type MasterRepositoryBase = {
   select<T extends TablesOptions, E extends SelectMethodsQuantity>(
     dates: MasterRepositorySelectValues<T, E>,
   ): MasterRepositorySelectReturn<T, E>;
+
+  delete<T extends TablesOptions>(
+    value: MasterRepositoryDeleteValues<T>,
+  ): Promise<Option<undefined>>;
 };
